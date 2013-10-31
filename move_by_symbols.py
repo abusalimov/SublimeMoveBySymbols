@@ -49,8 +49,13 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         else:
             sel_list = list(sel)
 
+        if symbol_selector:
+            sym_list = self.view.find_by_selector(symbol_selector)
+        else:  # fallback: use symbols from ouline
+            sym_list = [region for region, string in self.view.symbols()]
+
         sel_it = uni_iter(sel_list, forward)
-        sym_it = uni_iter(self.view.symbols(), forward)
+        sym_it = uni_iter(sym_list, forward)
 
         sel.clear()
 
@@ -58,12 +63,7 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         for sel_region in sel_it:
             cursor = sel_region.a
 
-            for sym_region, sym_string in sym_it:
-                if point_past_region_boundary(cursor, sym_region, not forward):
-                    continue  # inner
-
-                self.specify_region_by_selector(sym_region, symbol_selector)
-
+            for sym_region in sym_it:
                 if point_past_region_boundary(cursor, sym_region, forward):
                     break  # inner
             else:
@@ -73,22 +73,6 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
 
         self.fixup_empty_selection(not forward)  # fallback cursor at bof/eof
         self.view.show(sel[-forward])
-
-    def specify_region_by_selector(self, region, selector):
-        step = 1 if (region.a < region.b) else -1
-        a, b = (region.a, region.b)[::step]
-
-        score_selector = self.view.score_selector
-
-        for a in range(a, b, 1):
-            if score_selector(a, selector):
-                break
-
-        for b in range(b, a, -1):
-            if score_selector(b-1, selector):
-                break
-
-        region.a, region.b = (a, b)[::step]
 
     def fixup_empty_selection(self, begin):
         sel = self.view.sel()
