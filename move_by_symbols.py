@@ -15,15 +15,10 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         except KeyError:
             return  # do nothing in case of missing required argument
 
-        settings = self.view.settings()
-
         # By default one can move multiple selections (why not, after all?).
-        # Setting 'single_selection' to true discards all selections
-        # except the first/last (depending on the direction used).
-        try:
-            single_selection = kwargs['single_selection']
-        except KeyError:
-            single_selection = settings.get('single_selection', False)
+        # Setting 'force_single_selection' argument to true discards all
+        # selections except the first/last (depending on the direction used).
+        force_single_selection = kwargs.get('force_single_selection', False)
 
         # Some syntax bundles (like Python) override default symbol selector
         # to get more neat looking symbol outline.
@@ -36,14 +31,15 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         try:
             symbol_selector = kwargs['symbol_selector']
         except KeyError:
-            symbol_selector = settings.get('symbol_selector', 'entity.name')
+            symbol_selector = self.view.settings().get('symbol_selector',
+                                                       'entity.name')
 
-        self.do_move(forward, single_selection, symbol_selector)
+        self.do_move(forward, force_single_selection, symbol_selector)
 
-    def do_move(self, forward, single_selection, symbol_selector):
+    def do_move(self, forward, force_single_selection, symbol_selector):
         sel = self.view.sel()
 
-        if single_selection:
+        if force_single_selection:
             self.fixup_empty_selection(forward)
             sel_list = [sel[-forward]]
         else:
