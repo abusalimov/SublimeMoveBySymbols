@@ -22,17 +22,17 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
 
         # Some syntax bundles (like Python) override default symbol selector
         # to get more neat looking symbol outline.
-        # For example, for this file the first two symbols from outline are
+        # For example, for this file the first two symbols from the outline are
         # 'class MoveBySymbolsCommand(sublime_plugin.TextCommand):' and
         # '    def run(...):'.
         # However, it is much more convenient to navigate by selecting
-        # identifiers only, like 'MoveBySymbolsCommand' and 'run', without a
-        # surrounding text.
+        # names (identifiers) only, like 'MoveBySymbolsCommand' and 'run',
+        # without a surrounding text.
         try:
             symbol_selector = kwargs['symbol_selector']
         except KeyError:
-            symbol_selector = self.view.settings().get('symbol_selector',
-                                                       'entity.name')
+            symbol_selector = self.view.settings().get(
+                    'move_by_symbols_selector', 'entity.name')
 
         self.do_move(forward, force_single_selection, symbol_selector)
 
