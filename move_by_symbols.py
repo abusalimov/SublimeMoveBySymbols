@@ -15,6 +15,8 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         except KeyError:
             return  # do nothing in case of missing required argument
 
+        extend = bool(kwargs.get('extend', False))
+
         # By default one can move multiple selections (why not, after all?).
         # Setting 'force_single_selection' argument to true discards all
         # selections except the first/last (depending on the direction used).
@@ -34,9 +36,9 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
             symbol_selector = self.view.settings().get(
                     'move_by_symbols_selector', 'entity.name')
 
-        self.do_move(forward, force_single_selection, symbol_selector)
+        self.do_move(forward, extend, force_single_selection, symbol_selector)
 
-    def do_move(self, forward, force_single_selection, symbol_selector):
+    def do_move(self, forward, extend, force_single_selection, symbol_selector):
         sel = self.view.sel()
 
         if force_single_selection:
@@ -53,7 +55,8 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         sel_it = uni_iter(sel_list, forward)
         sym_it = uni_iter(sym_list, forward)
 
-        sel.clear()
+        if not extend:
+            sel.clear()
 
         # O(max(Nsel, Nsym)), not their product (as one might have thought)
         for sel_region in sel_it:
