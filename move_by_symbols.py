@@ -30,30 +30,39 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         # However, it is much more convenient to navigate by selecting
         # names (identifiers) only, like 'MoveBySymbolsCommand' and 'run',
         # without a surrounding text.
+        symbol_selector = self.get_option(kwargs, 'symbol_selector',
+                                          'move_by_symbols_selector')
+
+        symbols = self.find_symbols(symbol_selector)
+
+        self.do_move(symbols, forward, extend, force_single_selection)
+
+    def get_option(self, kwargs, arg_name, setting_name=None):
         try:
-            symbol_selector = kwargs['symbol_selector']
+            return kwargs[arg_name]
         except KeyError:
-            symbol_selector = self.view.settings().get(
-                    'move_by_symbols_selector', 'entity.name')
+            if setting_name is None:
+                setting_name = 'move_by_symbols_' + arg_name
+            return self.view.settings().get(setting_name)
 
-        self.do_move(forward, extend, force_single_selection, symbol_selector)
+    def find_symbols(self, symbol_selector=None):
+        if symbol_selector:
+            return self.view.find_by_selector(symbol_selector)
+        else:  # fallback: use symbols from the outline
+            return [region for region, string in self.view.symbols()]
 
-    def do_move(self, forward, extend, force_single_selection, symbol_selector):
+    def do_move(self, symbols, forward, extend=False,
+                force_single_selection=False):
         sel = self.view.sel()
 
         if force_single_selection:
             self.fixup_empty_selection(forward)
-            sel_list = [sel[-forward]]
+            selection = [sel[-forward]]
         else:
-            sel_list = list(sel)
+            selection = list(sel)
 
-        if symbol_selector:
-            sym_list = self.view.find_by_selector(symbol_selector)
-        else:  # fallback: use symbols from ouline
-            sym_list = [region for region, string in self.view.symbols()]
-
-        sel_it = uni_iter(sel_list, forward)
-        sym_it = uni_iter(sym_list, forward)
+        sel_it = uni_iter(selection, forward)
+        sym_it = uni_iter(symbols, forward)
 
         if not extend:
             sel.clear()
