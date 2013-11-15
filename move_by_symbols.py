@@ -2,15 +2,17 @@
 Jump up and down between symbols of current file.
 """
 
+from __future__ import absolute_import
+
 __author__ = 'Eldar Abusalimov'
+
 
 import sublime, sublime_plugin
 
-import collections
+from .symbols_highlighting import add_highlighting
+
 
 class MoveBySymbolsCommand(sublime_plugin.TextCommand):
-
-    highlighted = None  # { "scope": [regions...] }
 
     def run(self, edit, **kwargs):
         try:
@@ -37,28 +39,27 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
                                           'move_by_symbols_selector')
 
         # Highlighting options: style, scope, timeout
-        highlight = self.get_option(kwargs, 'highlight')
-        highlight = True
-        if highlight is True:
-            highlight = "outline"
-        if highlight not in ("outline", "fill"):
-            highlight = None
+        hl_style = self.get_option(kwargs, 'highlight')
+        if hl_style is True:
+            hl_style = "outline"
+        if hl_style not in ("outline", "fill"):
+            hl_style = None
 
-        highlight_scope = self.get_option(kwargs, 'highlight_scope')
-        if not isinstance(highlight_scope, str):
-            highlight_scope = None
+        hl_scope = self.get_option(kwargs, 'highlight_scope')
+        if not isinstance(hl_scope, str):
+            hl_scope = None
 
-        highlight_timeout = self.get_option(kwargs, 'highlight_timeout')
-        if not isinstance(highlight_timeout, int):
-            highlight_timeout = 1500   # default value
+        hl_timeout = self.get_option(kwargs, 'highlight_timeout')
+        if not isinstance(hl_timeout, int):
+            hl_timeout = 1500   # default value
 
         symbols = self.find_symbols(symbol_selector)
 
-        if highlight or 1:
-            self.highlight_symbols(symbols, highlight,
-                                   highlight_scope, highlight_timeout)
-
         self.do_move(symbols, forward, extend, force_single_selection)
+
+        if hl_style or 1:
+            add_highlighting(self.view, symbols,
+                             hl_scope, hl_style, hl_timeout)
 
     def get_option(self, kwargs, arg_name, setting_name=None):
         try:
@@ -73,38 +74,6 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
             return self.view.find_by_selector(symbol_selector)
         else:  # fallback: use symbols from the outline
             return [region for region, string in self.view.symbols()]
-
-    def highlight_symbols(self, symbols, style, scope, timeout):
-        self.clear_highlighting()
-
-        draw_flags = 0
-        if style != "fill":     draw_flags |= sublime.DRAW_NO_FILL
-        if style != "outline":  draw_flags |= sublime.DRAW_NO_OUTLINE
-
-        self.highlighted = regions_dict = collections.defaultdict(list)
-
-        if scope:
-            regions_dict[scope] = symbols
-        else:
-            for symbol in symbols:
-                symbol_scope = self.view.scope_name(symbol.begin())
-                regions_dict[symbol_scope].append(symbol)
-
-        for region_scope, regions in regions_dict.items():
-            self.view.add_regions('move_by_symbols : ' + region_scope,
-                                  regions, region_scope, flags=draw_flags)
-
-        sublime.set_timeout(lambda: self.clear_highlighting(regions_dict),
-                            timeout)
-
-    def clear_highlighting(self, regions_dict=None):
-        if regions_dict is not self.highlighted or self.highlighted is None:
-            return  # highlighting changed or nothing highlighted at all
-
-        for region_scope in self.highlighted:
-            self.view.erase_regions('move_by_symbols : ' + region_scope)
-
-        del self.highlighted
 
     def do_move(self, symbols, forward, extend=False,
                 force_single_selection=False):
