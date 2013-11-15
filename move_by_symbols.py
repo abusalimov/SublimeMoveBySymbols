@@ -61,6 +61,11 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
             add_highlighting(self.view, symbols,
                              hl_scope, hl_style, hl_timeout)
 
+        sel = self.view.sel()
+        if len(sel) == 1:
+            symbol_string = self.view.substr(sel[0])
+            sublime.status_message(symbol_string)
+
     def get_option(self, kwargs, name, default=None):
         try:
             return kwargs[name]
