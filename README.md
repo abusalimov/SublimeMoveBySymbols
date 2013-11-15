@@ -10,12 +10,17 @@ This is how it works with default settings out of the box.
 
 Installation
 ---
-### Using Package Control
-With Package Control installed:
- - Open Command Palette (<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>P</kbd> or <kbd>super</kbd> + <kbd>shift</kbd> + <kbd>P</kbd>)
+### Package Control
+With [Package Control](https://sublime.wbond.net/installation) installed:
+ - Open Command Palette (<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>P</kbd> or <kbd>⌘ super</kbd> + <kbd>⇧ shift</kbd> + <kbd>P</kbd>)
  - Select *Package Control: Install Package* (`pkginst`)
- - Search for *Move By Symbols* (`mbsym`) and install it
+ - Search for ***Move By Symbols*** (`mbsym`) package and install it
 
+### Manual
+Locate Sublime Text `Packages` directory (*Preferences -> Browse Packages...*)
+and clone this repository there:
+
+    git clone https://github.com/abusalimov/SublimeMoveBySymbols.git "Move By Symbols"
 
 Usage
 ---
