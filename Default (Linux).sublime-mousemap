@@ -1,0 +1,6 @@
+[
+	{ "button": "scroll_up", "modifiers": ["alt"], "command": "move_by_symbols",
+		"args": {"forward": false}},
+	{ "button": "scroll_down", "modifiers": ["alt"], "command": "move_by_symbols",
+		"args": {"forward": true}}
+]

@@ -1,0 +1,6 @@
+[
+	{ "keys": ["alt+up"], "command": "move_by_symbols",
+		"args": {"forward": false}},
+	{ "keys": ["alt+down"], "command": "move_by_symbols",
+		"args": {"forward": true}}
+]
