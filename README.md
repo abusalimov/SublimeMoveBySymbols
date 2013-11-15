@@ -43,7 +43,8 @@ The main command is **`move_by_symbols`**, it takes two boolean arguments:
  - <strong>`extend`</strong>: `bool`, default is `false`<br/>
    Controls whether to retain current selection or not
 
-Apart from these two arguments, few more options are considered:
+### Available settings
+The following options contol the package behavior:
 
  - <strong>`symbol_selector`</strong>: `string`, default is `null`, example value: `"entity.name"`<br/>
    If not specified (default), a symbol index is used (shown by <kbd>ctrl</kbd> + <kbd>R</kbd> outline).
@@ -74,4 +75,14 @@ Apart from these two arguments, few more options are considered:
  - <strong>`highlight_timeout`</strong>: `int`, default is 1500<br/>
    Time in milliseconds before highlighting automatically disappears.
 
+### Settings files
+The options above are read in the following order (last match always wins):
+
+ 1. Package settings:
+   - `Packages/User/Move By Symbols.sublime-settings`
+ 1. Global settings (with `MoveBySymbols.` prefix):
+   - `Packages/User/Preferences.sublime-settings`
+   - Project Settings
+   - `Packages/User/<syntax>.sublime-settings`
+ 1. Arguments passed to the `move_by_symbols` command (override everything above)
 
