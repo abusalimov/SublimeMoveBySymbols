@@ -2,14 +2,16 @@
 Jump up and down between symbols of current file.
 """
 
-from __future__ import absolute_import
-
 __author__ = 'Eldar Abusalimov'
 
 
 import sublime, sublime_plugin
 
-from .symbols_highlighting import add_highlighting
+ST3 = (int(sublime.version()) >= 3000)
+if ST3:
+    from .symbols_highlighting import add_highlighting
+else:
+    from symbols_highlighting import add_highlighting
 
 
 class MoveBySymbolsCommand(sublime_plugin.TextCommand):
@@ -130,8 +132,6 @@ def point_past_region_boundary(point, region, begin):
     else:
         return (point > region.end())
 
-
-ST3 = int(sublime.version()) >= 3000
 
 def plugin_loaded():
     global plugin_settings

@@ -6,6 +6,8 @@ import sublime, sublime_plugin
 
 import collections
 
+ST3 = (int(sublime.version()) >= 3000)
+
 
 class Highlighting(object):
 
@@ -23,17 +25,27 @@ class Highlighting(object):
                 self.regions[symbol_scope].append(symbol)
 
     def highlight(self, style="outline"):
-        draw_flags = 0
-        if style != "fill":     draw_flags |= sublime.DRAW_NO_FILL
-        if style != "outline":  draw_flags |= sublime.DRAW_NO_OUTLINE
-
         for region_scope, regions in self.regions.items():
             self.view.add_regions('move_by_symbols : ' + region_scope,
-                                  regions, region_scope, flags=draw_flags)
+                                  regions, region_scope, "",
+                                  prepare_draw_flags(style))
 
     def clear(self, regions=None):
         for region_scope in self.regions:
             self.view.erase_regions('move_by_symbols : ' + region_scope)
+
+
+if ST3:
+    def prepare_draw_flags(style):
+        draw_flags = 0
+        if style != "fill":     draw_flags |= sublime.DRAW_NO_FILL
+        if style != "outline":  draw_flags |= sublime.DRAW_NO_OUTLINE
+        return draw_flags
+else:
+    def prepare_draw_flags(style):
+        draw_flags = 0
+        if style == "outline":  draw_flags |= sublime.DRAW_OUTLINED
+        return draw_flags
 
 
 view_highlightings = {}
@@ -69,7 +81,7 @@ class SymbolHighlightingEvents(sublime_plugin.EventListener):
 
     def on_selection_modified(self, view):
         highlighting = view_highlightings.get(view.id())
-        if highlighting is not None and highlighting.sel != view.sel():
+        if highlighting is not None and highlighting.sel != list(view.sel()):
             erase_highlighting(view)
 
     def on_deactivated(self, view):
