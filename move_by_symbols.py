@@ -38,33 +38,31 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         force_single_selection = bool(
                 self.get_option(kwargs, 'force_single_selection'))
 
-        # Highlighting options: style, scope, timeout
-        hl = bool(self.get_option(kwargs, 'highlight'))
-
-        hl_scope = self.get_option(kwargs, 'highlight_scope')
-        if not isinstance(hl_scope, str):
-            hl_scope = None
-
-        hl_style = self.get_option(kwargs, 'highlight_style')
-        if hl_style not in ("outline", "fill"):
-            hl_style = "outline"
-
-        hl_timeout = self.get_option(kwargs, 'highlight_timeout')
-        if not isinstance(hl_timeout, int):
-            hl_timeout = 1500   # default value
-
         symbols = self.find_symbols(symbol_selector)
-
         self.do_move(symbols, forward, extend, force_single_selection)
-
-        if hl:
-            add_highlighting(self.view, symbols,
-                             hl_scope, hl_style, hl_timeout)
 
         sel = self.view.sel()
         if len(sel) == 1:
             symbol_string = self.view.substr(sel[0])
             sublime.status_message(symbol_string)
+
+        # Highlighting options: style, scope, timeout
+        hl = bool(self.get_option(kwargs, 'highlight'))
+        if hl:
+            hl_scope = self.get_option(kwargs, 'highlight_scope')
+            if not isinstance(hl_scope, str):
+                hl_scope = None
+
+            hl_style = self.get_option(kwargs, 'highlight_style')
+            if hl_style not in ("outline", "fill"):
+                hl_style = "outline"
+
+            hl_timeout = self.get_option(kwargs, 'highlight_timeout')
+            if not isinstance(hl_timeout, int):
+                hl_timeout = 1500   # default value
+
+            add_highlighting(self.view, symbols,
+                             hl_scope, hl_style, hl_timeout)
 
     def get_option(self, kwargs, name, default=None):
         try:
