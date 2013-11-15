@@ -8,6 +8,15 @@ This is how it works with default settings out of the box.
 ![Animation](http://habrastorage.org/storage3/113/4e7/25a/1134e725aa2d63666d909637889cb295.gif)
 
 
+Installation
+---
+### Using Package Control
+With Package Control installed:
+ - Open Command Palette (<kbd>ctrl</kbd> + <kbd>P</kbd>)
+ - Select *Package Control: Install Package* (`pkginst`)
+ - Search for *Move By Symbols* (`mbsym`) and install it
+
+
 Usage
 ---
 Two keybindings are available by default:
@@ -57,8 +66,4 @@ Apart from these two arguments, few more options are considered:
  - <strong>`highlight_timeout`</strong>: `int`, default is 1500<br/>
    Time in milliseconds before highlighting automatically disappears.
 
-
-Installation
----
-TDB
 
