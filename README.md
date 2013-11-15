@@ -27,7 +27,7 @@ Usage
 Two keybindings are available by default:
 
                 | Windows / Linux | OSX
---------------- | --------------- | --- 
+--------------- | --------------- | ---
 Previous Symbol | <kbd>alt</kbd> + <kbd>up</kbd>   | <kbd>⌃ control</kbd> + <kbd>up</kbd>
 Next Symbol     | <kbd>alt</kbd> + <kbd>down</kbd> | <kbd>⌃ control</kbd> + <kbd>down</kbd>
 
@@ -56,6 +56,9 @@ Apart from these two arguments, few more options are considered:
  - <strong>`force_single_selection`</strong>: `bool`, default is `false`<br/>
    Setting this option to `true` discards all selections except the first or last one
    depending on the direction used.
+
+ - <strong>`show_in_status_bar`</strong>: `bool`, default is `true`<br/>
+   If a single symbol is selected, show its name in the status bar.
 
  - <strong>`highlight`</strong>: `bool`, default is `true`<br/>
    Highlight symbols while navigating.
