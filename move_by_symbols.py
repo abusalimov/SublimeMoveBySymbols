@@ -22,11 +22,6 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
 
         extend = bool(kwargs.get('extend', False))
 
-        # By default one can move multiple selections (why not, after all?).
-        # Setting 'force_single_selection' argument to true discards all
-        # selections except the first/last (depending on the direction used).
-        force_single_selection = kwargs.get('force_single_selection', False)
-
         # Some syntax bundles (like Python) override default symbol selector
         # to get more neat looking symbol outline.
         # For example, for this file the first two symbols from the outline are
@@ -35,8 +30,13 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         # However, it is much more convenient to navigate by selecting
         # names (identifiers) only, like 'MoveBySymbolsCommand' and 'run',
         # without a surrounding text.
-        symbol_selector = self.get_option(kwargs, 'symbol_selector',
-                                          'move_by_symbols_selector')
+        symbol_selector = self.get_option(kwargs, 'symbol_selector')
+
+        # By default one can move multiple selections (why not, after all?).
+        # Setting 'force_single_selection' argument to true discards all
+        # selections except the first/last (depending on the direction used).
+        force_single_selection = bool(
+                self.get_option(kwargs, 'force_single_selection'))
 
         # Highlighting options: style, scope, timeout
         hl_style = self.get_option(kwargs, 'highlight')
@@ -61,13 +61,16 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
             add_highlighting(self.view, symbols,
                              hl_scope, hl_style, hl_timeout)
 
-    def get_option(self, kwargs, arg_name, setting_name=None):
+    def get_option(self, kwargs, name, default=None):
         try:
-            return kwargs[arg_name]
+            return kwargs[name]
         except KeyError:
-            if setting_name is None:
-                setting_name = 'move_by_symbols_' + arg_name
-            return self.view.settings().get(setting_name)
+            view_settings = self.view.settings()
+            view_key = 'MoveBySymbols.' + name
+            if view_settings.has(view_key):
+                return view_settings.get(view_key)
+            else:
+                return plugin_settings.get(name)
 
     def find_symbols(self, symbol_selector=None):
         if symbol_selector:
@@ -123,4 +126,14 @@ def point_past_region_boundary(point, region, begin):
         return (point < region.begin())
     else:
         return (point > region.end())
+
+
+ST3 = int(sublime.version()) >= 3000
+
+def plugin_loaded():
+    global plugin_settings
+    plugin_settings = sublime.load_settings('Move By Symbols.sublime-settings')
+
+if not ST3:
+    plugin_loaded()
 
