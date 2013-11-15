@@ -39,15 +39,15 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
                 self.get_option(kwargs, 'force_single_selection'))
 
         # Highlighting options: style, scope, timeout
-        hl_style = self.get_option(kwargs, 'highlight')
-        if hl_style is True:
-            hl_style = "outline"
-        if hl_style not in ("outline", "fill"):
-            hl_style = None
+        hl = bool(self.get_option(kwargs, 'highlight'))
 
         hl_scope = self.get_option(kwargs, 'highlight_scope')
         if not isinstance(hl_scope, str):
             hl_scope = None
+
+        hl_style = self.get_option(kwargs, 'highlight_style')
+        if hl_style not in ("outline", "fill"):
+            hl_style = "outline"
 
         hl_timeout = self.get_option(kwargs, 'highlight_timeout')
         if not isinstance(hl_timeout, int):
@@ -57,7 +57,7 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
 
         self.do_move(symbols, forward, extend, force_single_selection)
 
-        if hl_style or 1:
+        if hl:
             add_highlighting(self.view, symbols,
                              hl_scope, hl_style, hl_timeout)
 
