@@ -17,7 +17,7 @@ With [Package Control](https://sublime.wbond.net/installation) installed:
  - Search for ***Move By Symbols*** (`mbsym`) package and install it
 
 ### Manual
-Locate Sublime Text `Packages` directory (*Preferences -> Browse Packages...*)
+Locate Sublime Text `Packages` directory (*Preferences → Browse Packages...*)
 and clone this repository there:
 
     git clone https://github.com/abusalimov/SublimeMoveBySymbols.git "Move By Symbols"
@@ -44,7 +44,7 @@ The main command is **`move_by_symbols`**, it takes two boolean arguments:
 
 ### Settings files
 All available options are listed [below](#available-settings).
-You can also refer to *Preferences -> Package Settings -> Move By Symbols -> Settings – Default* to get the list of all settings with their description and fallback defaults.
+You can also refer to *Preferences → Package Settings → Move By Symbols → Settings – Default* to get the list of all settings with their description and fallback defaults.
 
 Options are read in the following order (last match always wins):
  - Package settings
@@ -54,7 +54,7 @@ Options are read in the following order (last match always wins):
 #### Package settings
 These settings have the least priority and can be used to modify options globally.
 For example, to disable showing a symbol in the status bar, open `Packages/User/Move By Symbols.sublime-settings` file
-(*Preferences -> Package Settings -> Move By Symbols -> Settings – User*), and add:
+(*Preferences → Package Settings → Move By Symbols → Settings – User*), and add:
 ```json
 {
     "show_in_status_bar": false
@@ -73,7 +73,7 @@ To avoid global namespace pollution all related settings are specified with `Mov
 For example, to modify navigation through Diff files so that only names of changed files are included
 (without selecting diff sections) and to make file names more conspicuous while navigating,
 create `Packages/User/Diff.sublime-settings` file (or open it while editing a diff file
-with *Preferences -> Settings – More -> Syntax Specific – User*) and add these lines:
+with *Preferences → Settings – More → Syntax Specific – User*) and add these lines:
 ```json
 {
     "MoveBySymbols.symbol_selector": "meta.toc-list.file-name.diff",
@@ -86,7 +86,8 @@ with *Preferences -> Settings – More -> Syntax Specific – User*) and add the
 Arguments passed to the `move_by_symbols` command override everything above.
 
 For example, to add a shortcut (with, say, <kbd>ctrl</kbd> modifier) for navigating between classes only,
-add the following to `Packages/User/Default (<platform>).sublime-keymap`:
+add the following to `Packages/User/Default (<platform>).sublime-keymap`
+(*Preferences → Key Bindings – User*):
 ```json
 [
     { "keys": ["ctrl+alt+up"],   "command": "move_by_symbols",
