@@ -5,7 +5,7 @@ Sublime Text plugin for navigating by symbols of current file up and down.
 
 This is how it works with default settings out of the box.
 
-![Animation](http://habrastorage.org/storage3/113/4e7/25a/1134e725aa2d63666d909637889cb295.gif)
+![Animation](http://habrastorage.org/storage3/f1b/fd2/5eb/f1bfd25eba560ec4aa6c468c7a7a8748.gif)
 
 
 Installation
