@@ -67,9 +67,46 @@ The options above are read in the following order (last match always wins):
 
  1. Package settings:
    - `Packages/User/Move By Symbols.sublime-settings`
+
+   These settings have the least priority and can be used to modify global options.
+   For example, to disable showing a symbol in the status bar, open this file
+   (*Preferences -> Package Settings -> Move By Symbols -> Settings – User*), and add:
+
+    ```json
+    {
+        "show_in_status_bar": false
+    }
+    ```
+
  1. Global settings (with `MoveBySymbols.` prefix):
    - `Packages/User/Preferences.sublime-settings`
    - Project Settings
    - `Packages/User/<syntax>.sublime-settings`
- 1. Arguments passed to the `move_by_symbols` command (override everything above)
+   
+   For example, to modify navigation through Diff files so that only names of changed files are included
+   (without selecting diff sections) and to make file names more conspicuous while navigating,
+   create `Packages/User/Diff.sublime-settings` file (or open it while editing a diff file
+   with *Preferences -> Settings – More -> Syntax Specific – User*) and add these lines:
+
+    ```json
+    {
+        "MoveBySymbols.symbol_selector": "meta.toc-list.file-name.diff",
+        "MoveBySymbols.highlight_style": "fill",
+        "MoveBySymbols.highlight_scope": "string"
+    }
+    ```
+
+ 1. Arguments passed to the `move_by_symbols` command (override everything above).
+
+   For example, to add a shortcut with, say, <kbd>ctrl</kbd> modifier for navigating between classes only,
+   add the following to `Packages/User/Default (<platform>).sublime-keymap`:
+
+    ```json
+    [
+        { "keys": ["alt+up"],   "command": "move_by_symbols",
+                "args": {"forward": false, "symbol_selector": "entity.name.type"}},
+        { "keys": ["alt+down"], "command": "move_by_symbols",
+                "args": {"forward": true,  "symbol_selector": "entity.name.type"}}
+    ]
+    ```
 
