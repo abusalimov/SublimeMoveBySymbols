@@ -28,8 +28,8 @@ Two keybindings are provided by default:
 
                 | OSX | Linux / Windows
 --------------- | --- | ---------------
-Previous Symbol | <kbd>ctrl</kbd> + <kbd>up</kbd>   | <kbd>alt</kbd> + <kbd>up</kbd>
-Next Symbol     | <kbd>ctrl</kbd> + <kbd>down</kbd> | <kbd>alt</kbd> + <kbd>down</kbd>
+**Previous Symbol** | <kbd>ctrl</kbd> + <kbd>up</kbd>   | <kbd>alt</kbd> + <kbd>up</kbd>
+**Next Symbol**     | <kbd>ctrl</kbd> + <kbd>down</kbd> | <kbd>alt</kbd> + <kbd>down</kbd>
 
 
 Also a mouse wheel can be used insead of <kbd>up</kbd>/<kbd>down</kbd> keys, with the same modifiers.
