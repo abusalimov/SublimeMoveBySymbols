@@ -29,6 +29,9 @@
 	// the first/last one (depending on the direction used).
 	"force_single_selection": false,
 
+	// Show the name of a single symbol in the status bar.
+	"show_in_status_bar": true,
+
 	// Highlight symbols while navigating.
 	"highlight": true,
 

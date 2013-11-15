@@ -43,14 +43,13 @@ class MoveBySymbolsCommand(sublime_plugin.TextCommand):
         symbols = self.find_symbols(symbol_selector)
         self.do_move(symbols, forward, extend, force_single_selection)
 
-        sel = self.view.sel()
-        if len(sel) == 1:
-            symbol_string = self.view.substr(sel[0])
-            sublime.status_message(symbol_string)
+        if bool(self.get_option(kwargs, 'show_in_status_bar')):
+            sel = self.view.sel()
+            if len(sel) == 1:
+                symbol_string = self.view.substr(sel[0])
+                sublime.status_message(symbol_string)
 
-        # Highlighting options: style, scope, timeout
-        hl = bool(self.get_option(kwargs, 'highlight'))
-        if hl:
+        if bool(self.get_option(kwargs, 'highlight')):
             hl_scope = self.get_option(kwargs, 'highlight_scope')
             if not isinstance(hl_scope, str):
                 hl_scope = None
