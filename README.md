@@ -12,7 +12,7 @@ Installation
 ---
 ### Package Control
 With [Package Control](https://sublime.wbond.net/installation) installed:
- - Open Command Palette (<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>P</kbd> or <kbd>⌘ super</kbd> + <kbd>⇧ shift</kbd> + <kbd>P</kbd>)
+ - Open Command Palette (<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>P</kbd> or <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>P</kbd>)
  - Select *Package Control: Install Package* (`pkginst`)
  - Search for ***Move By Symbols*** (`mbsym`) package and install it
 
@@ -28,8 +28,8 @@ Two keybindings are provided by default:
 
                 | OSX | Linux / Windows
 --------------- | --- | ---------------
-Previous Symbol | <kbd>⌃ control</kbd> + <kbd>up</kbd>   | <kbd>alt</kbd> + <kbd>up</kbd>
-Next Symbol     | <kbd>⌃ control</kbd> + <kbd>down</kbd> | <kbd>alt</kbd> + <kbd>down</kbd>
+Previous Symbol | <kbd>ctrl</kbd> + <kbd>up</kbd>   | <kbd>alt</kbd> + <kbd>up</kbd>
+Next Symbol     | <kbd>ctrl</kbd> + <kbd>down</kbd> | <kbd>alt</kbd> + <kbd>down</kbd>
 
 
 Also a mouse wheel can be used insead of <kbd>up</kbd>/<kbd>down</kbd> keys, with the same modifiers.
