@@ -114,7 +114,7 @@ The following options contol the package behavior:
  - <strong>`highlight_scope`</strong>: `string`, default is `null`, example value: `"string"`<br/>If not specified (default), use a foreground color of the symbol itself.
    If you want all symbols to be painted with the same color, set this option to the name of the desired scope, for example "string", or "comment".
 
- - <strong>`highlight_style`</strong>: one of `"outline"` or `"fill"`, default is `null`<br/>Controls how symbols are highlighted.
+ - <strong>`highlight_style`</strong>: one of `"outline"` or `"fill"`, default is `"outline"`<br/>Controls how symbols are highlighted.
 
  - <strong>`highlight_timeout`</strong>: `int`, default is 1500<br/>Time in milliseconds before highlighting automatically disappears.
 
